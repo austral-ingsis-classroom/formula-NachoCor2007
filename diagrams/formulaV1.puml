@@ -1,0 +1,38 @@
+@startuml
+
+class MathResolver {
+  - fun: Function
+  + resolve(): Optional<Double>
+  + resolveWithVariables(Map<Function, Double> variables): Optional<Double>
+  + getVariables(): Set<String>
+  + toString(): String
+}
+
+MathResolver --> Function
+
+interface Function {
+  + resolve(Map<Function, Double> variables): Optional<Double>
+  + getVariables(): Set<String>
+  + toString(): String
+}
+
+class Operator {
+  - left: Function
+  - right: Function
+}
+
+Function <|.. Operator
+Function <--o Operator
+
+class Constant {
+  - value: Double
+}
+
+class Variable {
+  - name: String
+}
+
+Function <|.. Variable
+Function <|.. Constant
+
+@enduml
