@@ -1,34 +1,71 @@
 package edu.austral.ingsis.math;
 
-import org.junit.jupiter.api.Test;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import edu.austral.ingsis.math.operands.Constant;
+import edu.austral.ingsis.math.operators.Operator;
+import edu.austral.ingsis.math.operators.OperatorType;
+import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
+import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
+import org.junit.jupiter.api.Test;
+import java.util.Optional;
 
 public class ResolutionTest {
 
   /** Case 1 + 6 */
   @Test
   public void shouldResolveSimpleFunction1() {
-    final Double result = 7d;
+    Function one = new Constant(1);
+    Function six = new Constant(6);
+    OperatorType sumOperator = new SumOperator();
 
-    assertThat(result, equalTo(7d));
+    Function sum = new Operator(one, six, sumOperator);
+    MathResolver mathResolver = new MathResolver(sum);
+
+    final Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertThat(result.get(), equalTo(7d));
   }
 
   /** Case 12 / 2 */
   @Test
   public void shouldResolveSimpleFunction2() {
-    final Double result = 6d;
+    Function twelve = new Constant(12);
+    Function two = new Constant(2);
+    OperatorType divOperator = new DivisionOperator();
 
-    assertThat(result, equalTo(6d));
+    Function div = new Operator(twelve, two, divOperator);
+
+    MathResolver mathResolver = new MathResolver(div);
+
+    final Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertThat(result.get(), equalTo(6d));
   }
 
   /** Case (9 / 2) * 3 */
   @Test
   public void shouldResolveSimpleFunction3() {
-    final Double result = 13.5;
+    Function nine = new Constant(9);
+    Function two = new Constant(2);
+    Function three = new Constant(3);
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType prodOperator = new ProductOperator();
 
-    assertThat(result, equalTo(13.5d));
+    Function div = new Operator(nine, two, divOperator);
+    Function prod = new Operator(div, three, prodOperator);
+
+    MathResolver mathResolver = new MathResolver(prod);
+
+    final Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertThat(result.get(), equalTo(13.5d));
   }
 
   /** Case (27 / 6) ^ 2 */

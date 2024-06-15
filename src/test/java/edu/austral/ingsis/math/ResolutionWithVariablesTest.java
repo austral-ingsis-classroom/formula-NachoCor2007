@@ -1,6 +1,16 @@
 package edu.austral.ingsis.math;
 
+import edu.austral.ingsis.math.operands.Constant;
+import edu.austral.ingsis.math.operands.Variable;
+import edu.austral.ingsis.math.operators.Operator;
+import edu.austral.ingsis.math.operators.OperatorType;
+import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
+import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,25 +20,61 @@ public class ResolutionWithVariablesTest {
   /** Case 1 + x where x = 3 */
   @Test
   public void shouldResolveFunction1() {
-    final Double result = 4d;
+    Function one = new Constant(1);
+    Function variable = new Variable("x");
+    OperatorType sumOperator = new SumOperator();
 
-    assertThat(result, equalTo(4d));
+    Function sum = new Operator(one, variable, sumOperator);
+
+    MathResolver mathResolver = new MathResolver(sum);
+
+    Map<String, Double> variables = Map.of("x", 3d);
+
+    final Optional<Double> result = mathResolver.resolveVariables(variables);
+
+    assertThat(result.isPresent(), equalTo(true));
+    assertThat(result.get(), equalTo(4d));
   }
 
   /** Case 12 / div where div = 4 */
   @Test
   public void shouldResolveFunction2() {
-    final Double result = 3d;
+    Function twelve = new Constant(12);
+    Function variable = new Variable("div");
+    OperatorType divOperator = new DivisionOperator();
 
-    assertThat(result, equalTo(3d));
+    Function div = new Operator(twelve, variable, divOperator);
+
+    MathResolver mathResolver = new MathResolver(div);
+
+    Map<String, Double> variables = Map.of("div", 4d);
+
+    final Optional<Double> result = mathResolver.resolveVariables(variables);
+
+    assertThat(result.isPresent(), equalTo(true));
+    assertThat(result.get(), equalTo(3d));
   }
 
   /** Case (9 / x) * y where x = 3 and y = 4 */
   @Test
   public void shouldResolveFunction3() {
-    final Double result = 12d;
+    Function nine = new Constant(9);
+    Function firstVariable = new Variable("x");
+    Function secondVariable = new Variable("y");
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType prodOperator = new ProductOperator();
 
-    assertThat(result, equalTo(12d));
+    Function div = new Operator(nine, firstVariable, divOperator);
+    Function prod = new Operator(div, secondVariable, prodOperator);
+
+    MathResolver mathResolver = new MathResolver(prod);
+
+    Map<String, Double> variables = Map.of("x", 3d, "y", 4d);
+
+    final Optional<Double> result = mathResolver.resolveVariables(variables);
+
+    assertThat(result.isPresent(), equalTo(true));
+    assertThat(result.get(), equalTo(12d));
   }
 
   /** Case (27 / a) ^ b where a = 9 and b = 3 */

@@ -1,11 +1,17 @@
 package edu.austral.ingsis.math;
 
-import org.junit.jupiter.api.Test;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 
+import edu.austral.ingsis.math.operands.Constant;
+import edu.austral.ingsis.math.operands.Variable;
+import edu.austral.ingsis.math.operators.Operator;
+import edu.austral.ingsis.math.operators.OperatorType;
+import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
+import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
+import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,7 +20,14 @@ public class ListVariablesTest {
   /** Case 1 + 6 */
   @Test
   public void shouldListVariablesFunction1() {
-    final List<String> result = Collections.emptyList();
+    Function one = new Constant(1);
+    Function six = new Constant(6);
+    OperatorType sumOperator = new SumOperator();
+
+    Function sum = new Operator(one, six, sumOperator);
+    MathResolver mathResolver = new MathResolver(sum);
+
+    final List<String> result = mathResolver.getVariables();
 
     assertThat(result, empty());
   }
@@ -22,7 +35,15 @@ public class ListVariablesTest {
   /** Case 12 / div */
   @Test
   public void shouldListVariablesFunction2() {
-    final List<String> result = Collections.emptyList();
+    Function twelve = new Constant(12);
+    Function variable = new Variable("div");
+    OperatorType divOperator = new DivisionOperator();
+
+    Function div = new Operator(twelve, variable, divOperator);
+
+    MathResolver mathResolver = new MathResolver(div);
+
+    final List<String> result = mathResolver.getVariables();
 
     assertThat(result, containsInAnyOrder("div"));
   }
@@ -30,7 +51,18 @@ public class ListVariablesTest {
   /** Case (9 / x) * y */
   @Test
   public void shouldListVariablesFunction3() {
-    final List<String> result = Collections.emptyList();
+    Function nine = new Constant(9);
+    Function firstVariable = new Variable("x");
+    Function secondVariable = new Variable("y");
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType prodOperator = new ProductOperator();
+
+    Function div = new Operator(nine, firstVariable, divOperator);
+    Function prod = new Operator(div, secondVariable, prodOperator);
+
+    MathResolver mathResolver = new MathResolver(prod);
+
+    final List<String> result = mathResolver.getVariables();
 
     assertThat(result, containsInAnyOrder("x", "y"));
   }

@@ -1,13 +1,15 @@
 package edu.austral.ingsis.math;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import edu.austral.ingsis.math.operands.Constant;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
+import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
 import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PrintTest {
 
@@ -27,19 +29,32 @@ public class PrintTest {
   /** Case 12 / 2 */
   @Test
   public void shouldPrintFunction2() {
-    final String expected = "12 / 2";
-    final String result = expected;
+    Function twelve = new Constant(12);
+    Function two = new Constant(2);
+    OperatorType divOperator = new DivisionOperator();
 
-    assertThat(result, equalTo(expected));
+    Function div = new Operator(twelve, two, divOperator);
+
+    MathResolver mathResolver = new MathResolver(div);
+
+    assertThat(mathResolver.toString(), equalTo("12 / 2"));
   }
 
   /** Case (9 / 2) * 3 */
   @Test
   public void shouldPrintFunction3() {
-    final String expected = "(9 / 2) * 3";
-    final String result = expected;
+    Function nine = new Constant(9);
+    Function two = new Constant(2);
+    Function three = new Constant(3);
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType prodOperator = new ProductOperator();
 
-    assertThat(result, equalTo(expected));
+    Function div = new Operator(nine, two, divOperator);
+    Function prod = new Operator(div, three, prodOperator);
+
+    MathResolver mathResolver = new MathResolver(prod);
+
+    assertThat(mathResolver.toString(), equalTo("(9 / 2) * 3"));
   }
 
   /** Case (27 / 6) ^ 2 */
