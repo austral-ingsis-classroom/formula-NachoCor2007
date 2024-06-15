@@ -9,6 +9,7 @@ import edu.austral.ingsis.math.operands.Variable;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
 import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.PowerOperator;
 import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
 import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
@@ -70,7 +71,18 @@ public class ListVariablesTest {
   /** Case (27 / a) ^ b */
   @Test
   public void shouldListVariablesFunction4() {
-    final List<String> result = Collections.emptyList();
+    Function twentySeven = new Constant(27);
+    Function firstVariable = new Variable("a");
+    Function secondVariable = new Variable("b");
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType powOperator = new PowerOperator();
+
+    Function div = new Operator(twentySeven, firstVariable, divOperator);
+    Function pow = new Operator(div, secondVariable, powOperator);
+
+    MathResolver mathResolver = new MathResolver(pow);
+
+    final List<String> result = mathResolver.getVariables();
 
     assertThat(result, containsInAnyOrder("a", "b"));
   }
@@ -78,7 +90,18 @@ public class ListVariablesTest {
   /** Case z ^ (1/2) */
   @Test
   public void shouldListVariablesFunction5() {
-    final List<String> result = Collections.emptyList();
+    Function z = new Variable("z");
+    Function one = new Constant(1);
+    Function two = new Constant(2);
+    OperatorType powOperator = new PowerOperator();
+    OperatorType divOperator = new DivisionOperator();
+
+    Operator div = new Operator(one, two, divOperator);
+    Function pow = new Operator(z, div, powOperator);
+
+    MathResolver mathResolver = new MathResolver(pow);
+
+    final List<String> result = mathResolver.getVariables();
 
     assertThat(result, containsInAnyOrder("z"));
   }

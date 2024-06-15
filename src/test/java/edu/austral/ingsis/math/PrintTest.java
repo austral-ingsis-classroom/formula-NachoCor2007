@@ -7,6 +7,7 @@ import edu.austral.ingsis.math.operands.Constant;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
 import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.PowerOperator;
 import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
 import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
@@ -60,10 +61,18 @@ public class PrintTest {
   /** Case (27 / 6) ^ 2 */
   @Test
   public void shouldPrintFunction4() {
-    final String expected = "(27 / 6) ^ 2";
-    final String result = expected;
+    Function twentySeven = new Constant(27);
+    Function six = new Constant(6);
+    Function two = new Constant(2);
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType powOperator = new PowerOperator();
 
-    assertThat(result, equalTo(expected));
+    Function div = new Operator(twentySeven, six, divOperator);
+    Function pow = new Operator(div, two, powOperator);
+
+    MathResolver mathResolver = new MathResolver(pow);
+
+    assertThat(mathResolver.toString(), equalTo("(27 / 6) ^ 2"));
   }
 
   /** Case |value| - 8 */

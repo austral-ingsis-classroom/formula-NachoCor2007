@@ -8,6 +8,7 @@ import edu.austral.ingsis.math.operands.Constant;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
 import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.PowerOperator;
 import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
 import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
@@ -71,17 +72,41 @@ public class ResolutionTest {
   /** Case (27 / 6) ^ 2 */
   @Test
   public void shouldResolveSimpleFunction4() {
-    final Double result = 20.25;
+    Function twentySeven = new Constant(27);
+    Function six = new Constant(6);
+    Function two = new Constant(2);
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType powOperator = new PowerOperator();
 
-    assertThat(result, equalTo(20.25d));
+    Function div = new Operator(twentySeven, six, divOperator);
+    Function pow = new Operator(div, two, powOperator);
+
+    MathResolver mathResolver = new MathResolver(pow);
+
+    final Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertThat(result.get(), equalTo(20.25d));
   }
 
   /** Case 36 ^ (1/2) */
   @Test
   public void shouldResolveSimpleFunction5() {
-    final Double result = 6d;
+    Function thirtySix = new Constant(36);
+    Function one = new Constant(1);
+    Function two = new Constant(2);
+    OperatorType powOperator = new PowerOperator();
+    OperatorType divOperator = new DivisionOperator();
 
-    assertThat(result, equalTo(6d));
+    Operator div = new Operator(one, two, divOperator);
+    Function pow = new Operator(thirtySix, div, powOperator);
+
+    MathResolver mathResolver = new MathResolver(pow);
+
+    final Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertThat(result.get(), equalTo(6d));
   }
 
   /** Case |136| */

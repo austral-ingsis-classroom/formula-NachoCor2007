@@ -5,6 +5,7 @@ import edu.austral.ingsis.math.operands.Variable;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
 import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.PowerOperator;
 import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
 import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
@@ -80,17 +81,45 @@ public class ResolutionWithVariablesTest {
   /** Case (27 / a) ^ b where a = 9 and b = 3 */
   @Test
   public void shouldResolveFunction4() {
-    final Double result = 27d;
+    Function twentySeven = new Constant(27);
+    Function firstVariable = new Variable("a");
+    Function secondVariable = new Variable("b");
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType powOperator = new PowerOperator();
 
-    assertThat(result, equalTo(27d));
+    Function div = new Operator(twentySeven, firstVariable, divOperator);
+    Function pow = new Operator(div, secondVariable, powOperator);
+
+    MathResolver mathResolver = new MathResolver(pow);
+
+    Map<String, Double> variables = Map.of("a", 9d, "b", 3d);
+
+    final Optional<Double> result = mathResolver.resolveVariables(variables);
+
+    assertThat(result.isPresent(), equalTo(true));
+    assertThat(result.get(), equalTo(27d));
   }
 
   /** Case z ^ (1/2) where z = 36 */
   @Test
   public void shouldResolveFunction5() {
-    final Double result = 6d;
+    Function variable = new Variable("z");
+    Function one = new Constant(1);
+    Function two = new Constant(2);
+    OperatorType powOperator = new PowerOperator();
+    OperatorType divOperator = new DivisionOperator();
 
-    assertThat(result, equalTo(6d));
+    Operator div = new Operator(one, two, divOperator);
+    Function pow = new Operator(variable, div, powOperator);
+
+    MathResolver mathResolver = new MathResolver(pow);
+
+    Map<String, Double> variables = Map.of("z", 36d);
+
+    final Optional<Double> result = mathResolver.resolveVariables(variables);
+
+    assertThat(result.isPresent(), equalTo(true));
+    assertThat(result.get(), equalTo(6d));
   }
 
   /** Case |value| - 8 where value = 8 */
