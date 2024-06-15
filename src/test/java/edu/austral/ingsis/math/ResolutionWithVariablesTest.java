@@ -1,18 +1,17 @@
 package edu.austral.ingsis.math;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import edu.austral.ingsis.math.operands.Constant;
 import edu.austral.ingsis.math.operands.Variable;
 import edu.austral.ingsis.math.operators.ModuleOperator;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
 import edu.austral.ingsis.math.operators.binaryoperations.*;
-import org.junit.jupiter.api.Test;
-
 import java.util.Map;
 import java.util.Optional;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.junit.jupiter.api.Test;
 
 public class ResolutionWithVariablesTest {
 

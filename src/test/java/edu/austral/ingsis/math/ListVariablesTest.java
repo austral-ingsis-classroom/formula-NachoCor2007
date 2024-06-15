@@ -10,9 +10,8 @@ import edu.austral.ingsis.math.operators.ModuleOperator;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
 import edu.austral.ingsis.math.operators.binaryoperations.*;
-import org.junit.jupiter.api.Test;
-import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class ListVariablesTest {
 

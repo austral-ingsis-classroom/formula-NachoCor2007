@@ -1,7 +1,6 @@
 package edu.austral.ingsis.math.operators;
 
 import edu.austral.ingsis.math.Function;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;

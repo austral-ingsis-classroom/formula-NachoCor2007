@@ -1,7 +1,6 @@
 package edu.austral.ingsis.math.operators.binaryoperations;
 
 import edu.austral.ingsis.math.operators.OperatorType;
-
 import java.util.Optional;
 
 public class ProductOperator implements OperatorType {

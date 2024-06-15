@@ -1,7 +1,7 @@
 package edu.austral.ingsis.math.operands;
 
-import java.math.BigDecimal;
 import edu.austral.ingsis.math.Function;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -29,6 +29,6 @@ public class Constant implements Function {
   }
 
   private String trimZeroes(Double number) {
-      return BigDecimal.valueOf(number).stripTrailingZeros().toPlainString();
+    return BigDecimal.valueOf(number).stripTrailingZeros().toPlainString();
   }
 }

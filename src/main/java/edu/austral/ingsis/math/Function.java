@@ -6,5 +6,6 @@ import java.util.Set;
 
 public interface Function {
   Optional<Double> resolve(Map<String, Double> variables);
+
   Set<String> getVariables();
 }
