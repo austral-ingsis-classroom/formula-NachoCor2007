@@ -7,6 +7,10 @@ import java.util.Optional;
 public class DivisionOperator implements OperatorType {
   @Override
   public Optional<Double> applyOperator(Double left, Double right) {
+    if (right == 0) {
+      return Optional.empty();
+    }
+
     return Optional.of(left / right);
   }
 
