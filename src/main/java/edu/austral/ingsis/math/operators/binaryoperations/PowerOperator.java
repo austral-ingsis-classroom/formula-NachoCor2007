@@ -1,4 +1,4 @@
-package edu.austral.ingsis.math.operators.operatortypes;
+package edu.austral.ingsis.math.operators.binaryoperations;
 
 import edu.austral.ingsis.math.operators.OperatorType;
 

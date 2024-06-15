@@ -6,10 +6,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import edu.austral.ingsis.math.operands.Constant;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
-import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
-import edu.austral.ingsis.math.operators.operatortypes.PowerOperator;
-import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
-import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
+import edu.austral.ingsis.math.operators.binaryoperations.DivisionOperator;
+import edu.austral.ingsis.math.operators.binaryoperations.PowerOperator;
+import edu.austral.ingsis.math.operators.binaryoperations.ProductOperator;
+import edu.austral.ingsis.math.operators.binaryoperations.SumOperator;
 import org.junit.jupiter.api.Test;
 
 public class PrintTest {
