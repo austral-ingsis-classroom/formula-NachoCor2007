@@ -4,12 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class MathResolver {
-  private final Function function;
-
-  public MathResolver(Function function) {
-    this.function = function;
-  }
+public record MathResolver(Function function) {
 
   public Optional<Double> resolve() {
     return this.resolveVariables(Map.of());
@@ -17,10 +12,6 @@ public class MathResolver {
 
   public Optional<Double> resolveVariables(Map<String, Double> variables) {
     return function.resolve(variables);
-  }
-
-  public Function getFunction() {
-    return function;
   }
 
   public List<String> getVariables() {

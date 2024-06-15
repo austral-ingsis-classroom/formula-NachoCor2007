@@ -7,6 +7,7 @@ import edu.austral.ingsis.math.operands.Variable;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
 import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
 import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
 import java.util.Collections;
@@ -44,14 +45,24 @@ public class ListVariablesTest {
     assertEquals(result, Collections.singletonList("div"));
   }
 
-//  /** Case (9 / x) * y */
-//  @Test
-//  public void shouldListVariablesFunction3() {
-//    final List<String> result = Collections.emptyList();
-//
-//    assertThat(result, containsInAnyOrder("x", "y"));
-//  }
-//
+  /** Case (9 / x) * y */
+  @Test
+  public void shouldListVariablesFunction3() {
+    Function nine = new Constant(9);
+    Function x = new Variable("x");
+    Variable why = new Variable("y");
+    OperatorType divOperator = new DivisionOperator();
+    OperatorType prodOperator = new ProductOperator();
+
+    Function division = new Operator(nine, x, divOperator);
+    Function product = new Operator(division, why, prodOperator);
+    MathResolver mathResolver = new MathResolver(product);
+
+    final List<String> result = mathResolver.getVariables();
+
+    assertEquals(result, List.of("x", "y"));
+  }
+
 //  /** Case (27 / a) ^ b */
 //  @Test
 //  public void shouldListVariablesFunction4() {

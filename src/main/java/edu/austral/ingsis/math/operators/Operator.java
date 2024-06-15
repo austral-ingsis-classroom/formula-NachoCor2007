@@ -43,6 +43,17 @@ public class Operator implements Function {
 
   @Override
   public String toString() {
-    return left.toString() + operation.toString() + right.toString();
+    String leftString = formatString(left);
+    String rightString = formatString(right);
+
+    return leftString + operation.toString() + rightString;
+  }
+
+  private String formatString(Function function) {
+    String stringFunction = function.toString();
+    if (function instanceof Operator) {
+      return "(" + stringFunction + ")";
+    }
+    return stringFunction;
   }
 }
