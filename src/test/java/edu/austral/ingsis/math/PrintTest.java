@@ -4,12 +4,11 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import edu.austral.ingsis.math.operands.Constant;
+import edu.austral.ingsis.math.operands.Variable;
+import edu.austral.ingsis.math.operators.ModuleOperator;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
-import edu.austral.ingsis.math.operators.binaryoperations.DivisionOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.PowerOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.ProductOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.SumOperator;
+import edu.austral.ingsis.math.operators.binaryoperations.*;
 import org.junit.jupiter.api.Test;
 
 public class PrintTest {
@@ -78,27 +77,38 @@ public class PrintTest {
   /** Case |value| - 8 */
   @Test
   public void shouldPrintFunction6() {
-    final String expected = "|value| - 8";
-    final String result = expected;
+    Function variable = new Variable("value");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
 
-    assertThat(result, equalTo(expected));
+    ModuleOperator mod = new ModuleOperator(variable);
+    Function sub = new Operator(mod, eight, subOperator);
+
+    MathResolver mathResolver = new MathResolver(sub);
+
+    assertThat(mathResolver.toString(), equalTo("|value| - 8"));
   }
 
   /** Case |value| - 8 */
   @Test
   public void shouldPrintFunction7() {
-    final String expected = "|value| - 8";
-    final String result = expected;
-
-    assertThat(result, equalTo(expected));
+    shouldPrintFunction6();
   }
 
   /** Case (5 - i) * 8 */
   @Test
   public void shouldPrintFunction8() {
-    final String expected = "(5 - i) * 8";
-    final String result = expected;
+    Function five = new Constant(5);
+    Function i = new Variable("i");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
+    OperatorType prodOperator = new ProductOperator();
 
-    assertThat(result, equalTo(expected));
+    Function sub = new Operator(five, i, subOperator);
+    Function prod = new Operator(sub, eight, prodOperator);
+
+    MathResolver mathResolver = new MathResolver(prod);
+
+    assertThat(mathResolver.toString(), equalTo("(5 - i) * 8"));
   }
 }

@@ -2,12 +2,10 @@ package edu.austral.ingsis.math;
 
 import edu.austral.ingsis.math.operands.Constant;
 import edu.austral.ingsis.math.operands.Variable;
+import edu.austral.ingsis.math.operators.ModuleOperator;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
-import edu.austral.ingsis.math.operators.binaryoperations.DivisionOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.PowerOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.ProductOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.SumOperator;
+import edu.austral.ingsis.math.operators.binaryoperations.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -125,24 +123,48 @@ public class ResolutionWithVariablesTest {
   /** Case |value| - 8 where value = 8 */
   @Test
   public void shouldResolveFunction6() {
-    final Double result = 0d;
+    Function variable = new Variable("value");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
 
-    assertThat(result, equalTo(0d));
+    Function mod = new ModuleOperator(variable);
+    Function sub = new Operator(mod, eight, subOperator);
+
+    MathResolver mathResolver = new MathResolver(sub);
+
+    Map<String, Double> variables = Map.of("value", 8d);
+
+    final Optional<Double> result = mathResolver.resolveVariables(variables);
+
+    assertThat(result.isPresent(), equalTo(true));
+    assertThat(result.get(), equalTo(0d));
   }
 
   /** Case |value| - 8 where value = 8 */
   @Test
   public void shouldResolveFunction7() {
-    final Double result = 0d;
-
-    assertThat(result, equalTo(0d));
+    shouldResolveFunction6();
   }
 
   /** Case (5 - i) * 8 where i = 2 */
   @Test
   public void shouldResolveFunction8() {
-    final Double result = 24d;
+    Function five = new Constant(5);
+    Function variable = new Variable("i");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
+    OperatorType prodOperator = new ProductOperator();
 
-    assertThat(result, equalTo(24d));
+    Function sub = new Operator(five, variable, subOperator);
+    Function prod = new Operator(sub, eight, prodOperator);
+
+    MathResolver mathResolver = new MathResolver(prod);
+
+    Map<String, Double> variables = Map.of("i", 2d);
+
+    final Optional<Double> result = mathResolver.resolveVariables(variables);
+
+    assertThat(result.isPresent(), equalTo(true));
+    assertThat(result.get(), equalTo(24d));
   }
 }

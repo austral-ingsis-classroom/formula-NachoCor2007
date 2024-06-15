@@ -6,12 +6,10 @@ import static org.hamcrest.Matchers.empty;
 
 import edu.austral.ingsis.math.operands.Constant;
 import edu.austral.ingsis.math.operands.Variable;
+import edu.austral.ingsis.math.operators.ModuleOperator;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
-import edu.austral.ingsis.math.operators.binaryoperations.DivisionOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.PowerOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.ProductOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.SumOperator;
+import edu.austral.ingsis.math.operators.binaryoperations.*;
 import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
@@ -109,7 +107,16 @@ public class ListVariablesTest {
   /** Case |value| - 8 */
   @Test
   public void shouldListVariablesFunction6() {
-    final List<String> result = Collections.emptyList();
+    Function variable = new Variable("value");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
+
+    Function mod = new ModuleOperator(variable);
+    Function sub = new Operator(mod, eight, subOperator);
+
+    MathResolver mathResolver = new MathResolver(sub);
+
+    final List<String> result = mathResolver.getVariables();
 
     assertThat(result, containsInAnyOrder("value"));
   }
@@ -117,15 +124,24 @@ public class ListVariablesTest {
   /** Case |value| - 8 */
   @Test
   public void shouldListVariablesFunction7() {
-    final List<String> result = Collections.emptyList();
-
-    assertThat(result, containsInAnyOrder("value"));
+    shouldListVariablesFunction6();
   }
 
   /** Case (5 - i) * 8 */
   @Test
   public void shouldListVariablesFunction8() {
-    final List<String> result = Collections.emptyList();
+    Function five = new Constant(5);
+    Function i = new Variable("i");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
+    OperatorType prodOperator = new ProductOperator();
+
+    Function sub = new Operator(five, i, subOperator);
+    Function prod = new Operator(sub, eight, prodOperator);
+
+    MathResolver mathResolver = new MathResolver(prod);
+
+    final List<String> result = mathResolver.getVariables();
 
     assertThat(result, containsInAnyOrder("i"));
   }

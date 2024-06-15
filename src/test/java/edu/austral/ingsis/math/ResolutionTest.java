@@ -5,12 +5,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.austral.ingsis.math.operands.Constant;
+import edu.austral.ingsis.math.operators.ModuleOperator;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
-import edu.austral.ingsis.math.operators.binaryoperations.DivisionOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.PowerOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.ProductOperator;
-import edu.austral.ingsis.math.operators.binaryoperations.SumOperator;
+import edu.austral.ingsis.math.operators.binaryoperations.*;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
@@ -112,24 +110,49 @@ public class ResolutionTest {
   /** Case |136| */
   @Test
   public void shouldResolveSimpleFunction6() {
-    final Double result = 136d;
+    Function oneHundredThirtySix = new Constant(136);
 
-    assertThat(result, equalTo(136d));
+    Function mod = new ModuleOperator(oneHundredThirtySix);
+
+    MathResolver mathResolver = new MathResolver(mod);
+
+    final Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertThat(result.get(), equalTo(136d));
   }
 
   /** Case |-136| */
   @Test
   public void shouldResolveSimpleFunction7() {
-    final Double result = 136d;
+    Function oneHundredThirtySix = new Constant(-136);
 
-    assertThat(result, equalTo(136d));
+    Function mod = new ModuleOperator(oneHundredThirtySix);
+
+    MathResolver mathResolver = new MathResolver(mod);
+
+    final Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertThat(result.get(), equalTo(136d));
   }
 
   /** Case (5 - 5) * 8 */
   @Test
   public void shouldResolveSimpleFunction8() {
-    final Double result = 0d;
+    Function five = new Constant(5);
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
+    OperatorType prodOperator = new ProductOperator();
 
-    assertThat(result, equalTo(0d));
+    Function sub = new Operator(five, five, subOperator);
+    Function prod = new Operator(sub, eight, prodOperator);
+
+    MathResolver mathResolver = new MathResolver(prod);
+
+    final Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertThat(result.get(), equalTo(0d));
   }
 }
