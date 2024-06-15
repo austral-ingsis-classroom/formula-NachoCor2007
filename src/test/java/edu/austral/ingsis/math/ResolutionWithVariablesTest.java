@@ -142,7 +142,21 @@ public class ResolutionWithVariablesTest {
   /** Case |value| - 8 where value = 8 */
   @Test
   public void shouldResolveFunction7() {
-    shouldResolveFunction6();
+    Function variable = new Variable("value");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
+
+    Function mod = new ModuleOperator(variable);
+    Function sub = new Operator(mod, eight, subOperator);
+
+    MathResolver mathResolver = new MathResolver(sub);
+
+    Map<String, Double> variables = Map.of("value", 8d);
+
+    final Optional<Double> result = mathResolver.resolveVariables(variables);
+
+    assertThat(result.isPresent(), equalTo(true));
+    assertThat(result.get(), equalTo(0d));
   }
 
   /** Case (5 - i) * 8 where i = 2 */

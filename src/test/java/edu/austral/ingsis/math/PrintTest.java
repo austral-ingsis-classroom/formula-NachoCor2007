@@ -92,7 +92,16 @@ public class PrintTest {
   /** Case |value| - 8 */
   @Test
   public void shouldPrintFunction7() {
-    shouldPrintFunction6();
+    Function variable = new Variable("value");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
+
+    ModuleOperator mod = new ModuleOperator(variable);
+    Function sub = new Operator(mod, eight, subOperator);
+
+    MathResolver mathResolver = new MathResolver(sub);
+
+    assertThat(mathResolver.toString(), equalTo("|value| - 8"));
   }
 
   /** Case (5 - i) * 8 */

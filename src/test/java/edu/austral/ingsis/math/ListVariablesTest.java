@@ -123,7 +123,18 @@ public class ListVariablesTest {
   /** Case |value| - 8 */
   @Test
   public void shouldListVariablesFunction7() {
-    shouldListVariablesFunction6();
+    Function variable = new Variable("value");
+    Function eight = new Constant(8);
+    OperatorType subOperator = new SubOperator();
+
+    Function mod = new ModuleOperator(variable);
+    Function sub = new Operator(mod, eight, subOperator);
+
+    MathResolver mathResolver = new MathResolver(sub);
+
+    final List<String> result = mathResolver.getVariables();
+
+    assertThat(result, containsInAnyOrder("value"));
   }
 
   /** Case (5 - i) * 8 */
