@@ -26,6 +26,8 @@ jacoco {
 
 test {
     useJUnitPlatform()
+    testClassesDirs = files('src/test/java')
+    classpath = sourceSets.test.runtimeClasspath
     finalizedBy jacocoTestReport
 }
 
