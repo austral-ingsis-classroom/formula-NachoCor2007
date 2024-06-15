@@ -1,21 +1,26 @@
 package edu.austral.ingsis.math;
 
-
-import edu.austral.ingsis.math.operands.Constant;
-import edu.austral.ingsis.math.operators.Sum;
-import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import edu.austral.ingsis.math.operands.Constant;
+import edu.austral.ingsis.math.operators.Operator;
+import edu.austral.ingsis.math.operators.OperatorType;
+import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
+import org.junit.jupiter.api.Test;
+import java.util.Optional;
 
 public class ResolutionTest {
 
   /** Case 1 + 6 */
   @Test
   public void shouldResolveSimpleFunction1() {
-    Function sum = new Sum(new Constant(1), new Constant(6));
+    Function one = new Constant(1);
+    Function six = new Constant(6);
+    OperatorType sumOperator = new SumOperator();
+
+    Function sum = new Operator(one, six, sumOperator);
     MathResolver mathResolver = new MathResolver(sum);
 
     Optional<Double> result = mathResolver.resolve();
@@ -24,14 +29,22 @@ public class ResolutionTest {
     assertEquals(result.get(), 7d);
   }
 
-//  /** Case 12 / 2 */
-//  @Test
-//  public void shouldResolveSimpleFunction2() {
-//    final Double result = 6d;
-//
-//    assertThat(result, equalTo(6d));
-//  }
-//
+  /** Case 12 / 2 */
+  @Test
+  public void shouldResolveSimpleFunction2() {
+    Function twelve = new Constant(12);
+    Function two = new Constant(2);
+    OperatorType divisionOperator = new DivisionOperator();
+
+    Function division = new Operator(twelve, two, divisionOperator);
+    MathResolver mathResolver = new MathResolver(division);
+
+    Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertEquals(result.get(), 6d);
+  }
+
 //  /** Case (9 / 2) * 3 */
 //  @Test
 //  public void shouldResolveSimpleFunction3() {

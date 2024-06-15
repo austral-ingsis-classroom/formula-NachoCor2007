@@ -3,7 +3,11 @@ package edu.austral.ingsis.math;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.austral.ingsis.math.operands.Constant;
-import edu.austral.ingsis.math.operators.Sum;
+import edu.austral.ingsis.math.operands.Variable;
+import edu.austral.ingsis.math.operators.Operator;
+import edu.austral.ingsis.math.operators.OperatorType;
+import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +17,11 @@ public class ListVariablesTest {
   /** Case 1 + 6 */
   @Test
   public void shouldListVariablesFunction1() {
-    Function sum = new Sum(new Constant(1), new Constant(6));
+    Function one = new Constant(1);
+    Function six = new Constant(6);
+    OperatorType sumOperator = new SumOperator();
+
+    Function sum = new Operator(one, six, sumOperator);
     MathResolver mathResolver = new MathResolver(sum);
 
     final List<String> result = mathResolver.getVariables();
@@ -21,14 +29,21 @@ public class ListVariablesTest {
     assertEquals(result, Collections.emptyList());
   }
 
-//  /** Case 12 / div */
-//  @Test
-//  public void shouldListVariablesFunction2() {
-//    final List<String> result = Collections.emptyList();
-//
-//    assertEquals(result, containsInAnyOrder("div"));
-//  }
-//
+  /** Case 12 / div */
+  @Test
+  public void shouldListVariablesFunction2() {
+    Function twelve = new Constant(12);
+    Function div = new Variable("div");
+    OperatorType divOperator = new DivisionOperator();
+
+    Function division = new Operator(twelve, div, divOperator);
+    MathResolver mathResolver = new MathResolver(division);
+
+    final List<String> result = mathResolver.getVariables();
+
+    assertEquals(result, Collections.singletonList("div"));
+  }
+
 //  /** Case (9 / x) * y */
 //  @Test
 //  public void shouldListVariablesFunction3() {
