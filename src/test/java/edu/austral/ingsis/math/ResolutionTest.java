@@ -7,6 +7,7 @@ import edu.austral.ingsis.math.operands.Constant;
 import edu.austral.ingsis.math.operators.Operator;
 import edu.austral.ingsis.math.operators.OperatorType;
 import edu.austral.ingsis.math.operators.operatortypes.DivisionOperator;
+import edu.austral.ingsis.math.operators.operatortypes.ProductOperator;
 import edu.austral.ingsis.math.operators.operatortypes.SumOperator;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;
@@ -45,14 +46,25 @@ public class ResolutionTest {
     assertEquals(result.get(), 6d);
   }
 
-//  /** Case (9 / 2) * 3 */
-//  @Test
-//  public void shouldResolveSimpleFunction3() {
-//    final Double result = 13.5;
-//
-//    assertThat(result, equalTo(13.5d));
-//  }
-//
+  /** Case (9 / 2) * 3 */
+  @Test
+  public void shouldResolveSimpleFunction3() {
+    Function nine = new Constant(9);
+    Function two = new Constant(2);
+    Function three = new Constant(3);
+    OperatorType divisionOperator = new DivisionOperator();
+    OperatorType productOperator = new ProductOperator();
+
+    Function division = new Operator(nine, two, divisionOperator);
+    Function product = new Operator(division, three, productOperator);
+    MathResolver mathResolver = new MathResolver(product);
+
+    Optional<Double> result = mathResolver.resolve();
+
+    assertTrue(result.isPresent());
+    assertEquals(result.get(), 13.5d);
+  }
+
 //  /** Case (27 / 6) ^ 2 */
 //  @Test
 //  public void shouldResolveSimpleFunction4() {
